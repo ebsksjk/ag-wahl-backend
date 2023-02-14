@@ -1,0 +1,106 @@
+<script>
+	function addAG() {
+		
+		const agName = document.getElementById("Name").value;
+
+		if (agName == "") {
+			alert("Bitte geben Sie einen AG-Namen ein!");
+			return;
+		}
+
+		const lehrer = document.getElementById("Lehrer").value;
+		
+		if (lehrer == "") {
+			alert("Bitte geben Sie einen Namen der Lehrkraft an!");
+			return;
+		}
+
+		const abJg = document.querySelector('input[name="AbJg"]:checked').value;
+		const bisJg = document.querySelector('input[name="BisJg"]:checked').value;
+		
+		
+		
+		if(Number(abJg) > Number(bisJg)) {
+			alert("Der Startjahrgang darf nicht nach dem Endjahrgang liegen!");
+			return;
+		}
+		
+		const aktiv = document.getElementById("Aktiv").value;
+		
+		const vGesch = document.getElementById("VorgGeschlecht").value;
+		const gender = ( vGesch ? vGesch : "0");
+		
+		const mxZ = document.getElementById("MaxTeilnZahl").value;
+		const maxTlnZahl = ( mxZ ? mxZ : 50);
+		
+		const query = 'addAG.php?name=' + agName + '&lehrer=' + lehrer + '&abJg=' + abJg + '&bisJg=' + bisJg + '&aktiv=' + aktiv + '&gender=' + gender + '&maxTeilZahl=' + maxTlnZahl;
+		
+		fetch(query)
+			.then((response) => response.text())
+			.then((text) => (text === "0") ? window.close() : alert("Ein unerwarter Fehler ist aufgetreten!"));
+			
+	}
+</script>
+
+<style>
+			#customers {
+			  font-family: Arial, Helvetica, sans-serif;
+			  border-collapse: collapse;
+			  width: 50%;
+			}
+
+			#customers td, #customers th {
+			  border: 1px solid #ddd;
+			  padding: 10px;
+			}
+
+			#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+			#customers tr:hover {background-color: #ddd;}
+
+			#customers th {
+			  padding-top: 15px;
+			  padding-bottom: 13px;
+			  text-align: left;
+			  background-color: lightblue;
+			  color: white;
+			}
+</style>
+
+<h1>NEUE AG HINZUF&Uuml;GEN</h1>
+
+<table id="customers">
+  <tr>
+    <th>Name der AG</th>
+	<th>Ab Jahrgang</th>
+	<th>Bis Jahrgang</th>
+    <th>Maximale Teilnehmerzahl (1-50)</th>
+	<th>Geschlecht (a/w/m)</th>
+	<th>Lehrer</th>
+    <th>Wird angeboten</th>
+  </tr>
+  <tr>
+    <td><input type="text" id="Name" name="Name"></td>
+    <td>
+	<input type="radio" name="AbJg" value="5" checked>5
+    <input type="radio" name="AbJg" value="6">6
+    <input type="radio" name="AbJg" value="7">7
+	<input type="radio" name="AbJg" value="8">8
+    <input type="radio" name="AbJg" value="9">9
+    <input type="radio" name="AbJg" value="10">10	
+	</td>
+	<td>
+	<input type="radio" name="BisJg" value="5" checked>5
+    <input type="radio" name="BisJg" value="6">6
+    <input type="radio" name="BisJg" value="7">7
+	<input type="radio" name="BisJg" value="8">8
+    <input type="radio" name="BisJg" value="9">9
+    <input type="radio" name="BisJg" value="10">10	
+	</td>
+	<td><input type="number" min="1" max="50" id="MaxTeilnZahl" name="MaxTeilnZahl"></td>
+	<td><input type="text" id="VorgGeschlecht" name="VorgGeschlecht"></td>
+	<td><input type="text" id="Lehrer" name="Lehrer"></td>
+    <td><input type="checkbox" id="Aktiv" name="Aktiv" value="true"></td>
+   </tr>
+</table>
+<button onClick="addAG()">Hinzuf&uuml;gen</button>
